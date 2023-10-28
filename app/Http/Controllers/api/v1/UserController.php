@@ -5,7 +5,9 @@ namespace App\Http\Controllers\api\v1;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Models\ShoppingCart;
-use Illuminate\Http\Request;
+use App\Http\Requests\api\v1\UserUpdateRequest;
+use App\Http\Requests\api\v1\UserStoreRequest;
+use App\Http\Resources\api\v1\UserResource;
 
 class UserController extends Controller
 {
@@ -16,14 +18,14 @@ class UserController extends Controller
     {
         $users = User::orderBy('id', 'desc')->get();
         return response()->json([
-            'data' => $users,
+            'data' => UserResource::collection($users),
         ], 200);
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(UserStoreRequest $request)
     {
         $user = User::create($request->all());
 
@@ -33,7 +35,7 @@ class UserController extends Controller
         ]);
 
         return response()->json(
-            ['data' => $user
+            ['data' => new UserResource($user)
         ], 201);
     }
 
@@ -43,19 +45,19 @@ class UserController extends Controller
     public function show(User $user)
     {
         return response()->json([
-            'data' => [$user, $user->computers]
+            'data' => new UserResource($user)
         ], 200);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, User $user)
+    public function update(UserUpdateRequest $request, User $user)
     {
         // Used to update all data from the req information params
         $user->update($request->all());
         return response()->json([
-            'data' => $user
+            'data' => new UserResource($user)
         ], 200);
     }
 

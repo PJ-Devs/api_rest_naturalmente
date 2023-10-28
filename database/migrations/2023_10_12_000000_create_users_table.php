@@ -23,11 +23,6 @@ return new class extends Migration
             $table->foreignId('shopping_cart_id')->nullable();
             $table->rememberToken();
             $table->timestamps();
-
-            $table->foreign('shopping_cart_id')
-                ->references('id')
-                ->on('shopping_carts')
-                ->nullOnDelete();
         });
     }
 
