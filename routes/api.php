@@ -17,3 +17,9 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::get('/auth/google-login', [App\Http\Controllers\api\v1\AuthController::class, 'googleLogin']);
+
+Route::get('/auth/google-callback', []);
+
+Route::apiResource('/v1/users', App\Http\Controllers\api\v1\UserController::class);
