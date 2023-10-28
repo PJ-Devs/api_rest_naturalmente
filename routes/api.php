@@ -23,3 +23,14 @@ Route::get('/auth/google-login', [App\Http\Controllers\api\v1\AuthController::cl
 Route::get('/auth/google-callback', []);
 
 Route::apiResource('/v1/users', App\Http\Controllers\api\v1\UserController::class);
+
+//endpoints for products
+Route::apiResource('/v1/products', App\Http\Controllers\api\v1\ProductController::class);
+
+//endpoints for categories
+Route::apiResource('/v1/categories', App\Http\Controllers\api\v1\ProductCategoryController::class);
+Route::get('/v1/products/{id_product}/category', App\Http\Controllers\api\v1\ProductCategoryController::class.'@show');
+
+//endpoints for product types
+Route::apiResource('/v1/types', App\Http\Controllers\api\v1\ProductTypeController::class);
+Route::get('/v1/products/{id_product}/type', App\Http\Controllers\api\v1\ProductTypeController::class.'@show');
