@@ -8,7 +8,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use App\Models\ProductType;
 use App\Models\ProductCategory;
-use App\Models\ShoppingCart;
 
 class Product extends Model
 {
@@ -25,9 +24,10 @@ class Product extends Model
     }
 
     // Many to Many relationship between Product and ShoppingCart
-    public function shopping_carts(): BelongsToMany
+    public function users(): BelongsToMany
     {
-        return $this->belongsToMany(ShoppingCart::class, 'product_cart', 'product_id', 'shopping_cart_id');
+        return $this->belongsToMany(User::class, 'products_user', 'product_id', 'user_id')
+            ->withPivot('id');
     }
 
     protected $fillable=[

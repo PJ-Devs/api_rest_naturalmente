@@ -20,7 +20,6 @@ return new class extends Migration
             $table->string('phone_number', 11)->nullable();
             $table->string('user_status', 30)->default('active');
             $table->date('birthday')->nullable();
-            $table->foreignId('shopping_cart_id')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

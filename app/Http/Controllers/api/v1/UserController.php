@@ -4,7 +4,6 @@ namespace App\Http\Controllers\api\v1;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
-use App\Models\ShoppingCart;
 use App\Http\Requests\api\v1\UserUpdateRequest;
 use App\Http\Requests\api\v1\UserStoreRequest;
 use App\Http\Resources\api\v1\UserResource;
@@ -28,11 +27,6 @@ class UserController extends Controller
     public function store(UserStoreRequest $request)
     {
         $user = User::create($request->all());
-
-        // Create the user shopping cart
-        ShoppingCart::create([
-            'user_id' => $user->id,
-        ]);
 
         return response()->json(
             ['data' => new UserResource($user)
