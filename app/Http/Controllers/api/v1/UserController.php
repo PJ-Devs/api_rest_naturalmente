@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Http\Requests\api\v1\UserUpdateRequest;
 use App\Http\Requests\api\v1\UserStoreRequest;
 use App\Http\Resources\api\v1\UserResource;
+use App\Models\Product;
 
 class UserController extends Controller
 {
@@ -63,4 +64,35 @@ class UserController extends Controller
         $user->delete();
         return response()->json(null, 204);
     }
+
+    public function attachProduct(string $user_id, string $product_id)
+    {
+        $user = User::find($user_id);
+        $targetProduct = Product::find($product_id);
+        $user->products()->attach($targetProduct);
+
+        return response()->json([
+            'data' => new UserResource($user->products)
+        ], 200);
+    }
+
+    public function unattachProduct(string $user_id, string $product_id)
+    {
+        $user = User::find($user_id);
+        $targetProduct = Product::find($product_id);
+        $user->products()->detach($targetProduct);
+        return response()->json([
+            'data' => new UserResource($user->products)
+        ], 200);
+    }
+
+    public function getShoppingCart(string $user_id)
+    {
+        $user = User::find($user_id);
+
+        return response()->json([
+            'data' => new UserResource($user->products)
+        ], 200);
+    }
+
 }
