@@ -37,22 +37,18 @@ Route::middleware('auth')->group(function() {
  */
 Route::group([
     'middleware' => 'api',
-    'prefix' => 'auth'
-], function ($router) {
-    Route::post('/v1/login', [App\Http\Controllers\api\v1\AuthController::class, 'login']);
-    Route::post('/v1/logout', [App\Http\Controllers\api\v1\AuthController::class, 'logout']);
-    Route::post('/v1/refresh', [App\Http\Controllers\api\v1\AuthController::class, 'refresh']);
-    Route::post('/v1/me', [App\Http\Controllers\api\v1\AuthController::class, 'me']);
+    'prefix' => '/v1/auth'
+], function () {
+    Route::post('/login', [App\Http\Controllers\api\v1\AuthController::class, 'login']);
+    Route::post('/logout', [App\Http\Controllers\api\v1\AuthController::class, 'logout']);
+    Route::post('/refresh', [App\Http\Controllers\api\v1\AuthController::class, 'refresh']);
+    Route::post('/me', [App\Http\Controllers\api\v1\AuthController::class, 'me']);
+    Route::post('/register', [App\Http\Controllers\api\v1\AuthController::class, 'register']);
 });
 
 Route::get('/auth/google-login', [App\Http\Controllers\api\v1\AuthController::class, 'googleLogin']);
 
 Route::get('/auth/google-callback', []);
-
-/**
- * Register routes
- */
-Route::post('/v1/register', [App\Http\Controllers\api\v1\AuthController::class.'@register']);
 
 //endpoints for products
 Route::apiResource('/v1/products', App\Http\Controllers\api\v1\ProductController::class);
