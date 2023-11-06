@@ -37,54 +37,78 @@ class AuthController extends Controller
         }
     }
 
-    public function login(Request $request)
+   /**
+     * Create a new AuthController instance.
+     *
+     * @return void
+     */
+    public function __construct()
     {
-        // Validar que el usuari haya provisto los datos necesarios
-        // para hacer la autenticación: "email" y "password".
-        try {
-            $request->validate([
-                    'email' => 'required|string|email|max:255|exists:users',
-                    'password' => 'required|string|min:7',
-                ]);
-        } catch (ValidationException $e) {
-            return response()->json([
-                    'message' => $e->getMessage()
-                ], $e->status);
-        }
-
-        // Verificar que los datos provistos sean los correctos y que
-        // efectivamente el usuario se autentique con ellos utilizando
-        // los datos de la tabla "users".
-        if (!Auth::attempt($request->only('email', 'password'))) {
-            return response()->json([
-                    'message' => 'Invalid login details'
-                ], 401);
-        }
-
-        // Una vez autenticado, obtener la información del usuario en sesión.
-        $tokenType = 'Bearer';
-        $user = User::where('email', $request['email'])->firstOrFail();
-
-        // Borrar los tokens anteriores (tipo Bearer) del usuario para
-        // evitar, en este caso, tenga mas de uno del mismo tipo.
-        $user->tokens()->where('name', $tokenType)->delete();
-
-        // Crear un nuevo token tipo Bearer para el usuario autenticado.
-        $token = $user->createToken($tokenType);
-
-        // Enviar el token recién creado al cliente.
-        return response()->json([
-                'token' => $token->plainTextToken,
-                'type' => $tokenType,
-            ], 200);
+        $this->middleware('auth:api', ['except' => ['login']]);
     }
 
-    public function logout(Request $request)
+    /**
+     * Get a JWT via given credentials.
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function login()
     {
-        $request->user()->currentAccessToken()->delete();
+        $credentials = request(['email', 'password']);
+
+        if (! $token = Auth::attempt($credentials)) {
+            return response()->json(['error' => 'Unauthorized'], 401);
+        }
+
+        return $this->respondWithToken($token);
+    }
+
+    /**
+     * Get the authenticated User.
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function me()
+    {
+        return response()->json(Auth::user());
+    }
+
+    /**
+     * Log the user out (Invalidate the token).
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function logout()
+    {
+        Auth::logout();
+
+        return response()->json(['message' => 'Successfully logged out']);
+    }
+
+    /**
+     * Refresh a token.
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function refresh()
+    {
+        return $this->respondWithToken(Auth::refresh());
+    }
+
+    /**
+     * Get the token array structure.
+     *
+     * @param  string $token
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    protected function respondWithToken($token)
+    {
         return response()->json([
-                'message' => 'Token revoked'
-            ], 200);
+            'access_token' => $token,
+            'token_type' => 'bearer',
+            'expires_in' => Auth::factory()->getTTL() * 60
+        ]);
     }
 
 }

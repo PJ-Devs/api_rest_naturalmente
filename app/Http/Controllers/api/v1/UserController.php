@@ -37,8 +37,9 @@ class UserController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(User $user)
+    public function show(string $id)
     {
+        $user = User::find($id);
         return response()->json([
             'data' => new UserResource($user)
         ], 200);
@@ -47,9 +48,10 @@ class UserController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UserUpdateRequest $request, User $user)
+    public function update(UserUpdateRequest $request, string $id)
     {
         // Used to update all data from the req information params
+        $user = User::find($id);
         $user->update($request->all());
         return response()->json([
             'data' => new UserResource($user)
@@ -76,11 +78,12 @@ class UserController extends Controller
         ], 200);
     }
 
-    public function unattachProduct(string $user_id, string $product_id)
+    public function detachProduct(string $user_id, string $product_id)
     {
         $user = User::find($user_id);
         $targetProduct = Product::find($product_id);
         $user->products()->detach($targetProduct);
+        
         return response()->json([
             'data' => new UserResource($user->products)
         ], 200);
