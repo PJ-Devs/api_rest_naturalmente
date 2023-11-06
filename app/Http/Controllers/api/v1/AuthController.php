@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cookie;
 
 class AuthController extends Controller
 {
@@ -81,6 +82,7 @@ class AuthController extends Controller
     public function logout()
     {
         Auth::logout();
+        Cookie::forget('jwt');
 
         return response()->json(['message' => 'Successfully logged out']);
     }
@@ -104,11 +106,14 @@ class AuthController extends Controller
      */
     protected function respondWithToken($token)
     {
-        return response()->json([
+        $token_cookie = cookie('jwt', $token, 60 * 24); // 1 day
+
+        return response([
             'access_token' => $token,
+            'user' => Auth::user(),
             'token_type' => 'bearer',
-            'expires_in' => Auth::factory()->getTTL() * 60
-        ]);
+            'expires_in' => Auth::factory()->getTTL() * 60 * 24
+        ])->withCookie($token_cookie);
     }
 
 }
