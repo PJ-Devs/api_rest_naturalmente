@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use App\Models\ProductType;
 use App\Models\ProductCategory;
 
@@ -19,6 +21,13 @@ class Product extends Model
     public function product_categories(): BelongsTo
     {
         return $this->belongsTo(ProductCategory::class, 'category');
+    }
+
+    // Many to Many relationship between Product and ShoppingCart
+    public function users(): BelongsToMany
+    {
+        return $this->belongsToMany(User::class, 'products_user', 'product_id', 'user_id')
+            ->withPivot('id');
     }
 
     protected $fillable=[

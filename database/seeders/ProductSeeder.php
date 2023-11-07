@@ -15,7 +15,7 @@ class ProductSeeder extends Seeder
     {
         Product::unguard();
         Product::create([
-            'name' => 'Test Product',
+            'name' => 'Ginkgo Biloba',
             'description' => 'Test Product Description',
             'price' => 100,
             'category' => 1,
@@ -24,7 +24,7 @@ class ProductSeeder extends Seeder
             'img' => '',
         ]);
         Product::create([
-            'name' => 'Test Product 2',
+            'name' => 'Saw palmetto',
             'description' => 'Test Product Description 2',
             'price' => 200,
             'category' => 2,

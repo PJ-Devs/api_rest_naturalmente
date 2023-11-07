@@ -16,10 +16,10 @@ class ProductCategorySeeder extends Seeder
         //
         ProductCategory::unguard();
         ProductCategory::create([
-            'name' => 'Test Product Category',
+            'name' => 'Fitoterapeutico',
         ]);
         ProductCategory::create([
-            'name' => 'Test Product Category 2',
+            'name' => 'Deportivo',
         ]);
         ProductCategory::reguard();
     }
