@@ -35,7 +35,7 @@ class ProductController extends Controller
     public function show(Product $product)
     {
         return response()->json([
-            "data" => ProductResource::collection($product),
+            "data" => new ProductResource($product),
         ],200);
     }
 

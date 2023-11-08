@@ -42,7 +42,7 @@ Route::group([
     Route::post('/login', [App\Http\Controllers\api\v1\AuthController::class, 'login']);
     Route::post('/logout', [App\Http\Controllers\api\v1\AuthController::class, 'logout']);
     Route::post('/refresh', [App\Http\Controllers\api\v1\AuthController::class, 'refresh']);
-    Route::post('/me', [App\Http\Controllers\api\v1\AuthController::class, 'me']);
+    Route::post('/profile', [App\Http\Controllers\api\v1\AuthController::class, 'me']);
     Route::post('/register', [App\Http\Controllers\api\v1\AuthController::class, 'register']);
 });
 

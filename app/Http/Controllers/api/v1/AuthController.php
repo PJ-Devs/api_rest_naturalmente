@@ -101,11 +101,12 @@ class AuthController extends Controller
      */
     protected function respondWithToken($token)
     {
-        $token_cookie = Cookie::make('jwt', $token, 60, null, null, false, false);
 
         return response([
             'message' => 'success',
-        ])->withCookie($token_cookie);
+        ])->withCookie(
+            'jwt', $token, 60, null, null, false, true
+        );
     }
 
     public function register(UserStoreRequest $request) {
