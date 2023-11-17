@@ -108,4 +108,11 @@ class UserController extends Controller
             'data' => CartProductResource::collection($user->products),
         ], 200);
     }
+
+    public function getCustomers(){
+        $users = User::where('user_type', 'customer')->get();
+        return response()->json([
+            'data' => UserResource::collection($users),
+        ], 200);
+    }
 }

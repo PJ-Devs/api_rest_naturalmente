@@ -32,6 +32,7 @@ Route::delete('/v1/users/{id}', [App\Http\Controllers\api\v1\UserController::cla
 Route::post('/v1/users/{user_id}/products/{product_id}', [App\Http\Controllers\api\v1\UserController::class, 'attachProduct']);
 Route::delete('/v1/users/{user_id}/products/{product_id}', [App\Http\Controllers\api\v1\UserController::class, 'detachProduct']);
 Route::get('/v1/users/{id}/products', [App\Http\Controllers\api\v1\UserController::class, 'getShoppingCart']);
+Route::get('/v1/customers', [App\Http\Controllers\api\v1\UserController::class, 'getCustomers']);
 
 /**
  * Theese routes are used for authentication by JWT

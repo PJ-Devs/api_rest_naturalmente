@@ -17,59 +17,44 @@ class UserSeeder extends Seeder
             'name' => 'Juan',
             'email' => 'juan@gmail.com',
             'password' => '12345678',
+            'phone_number' => '12345678',
+            'address' => 'cra 9 # 9-09',
+            'user_type' => 'admin',
+            'user_status' => 'active',
+            'birthday' => '1999-09-09',
+
         ]);
         User::create([
             'name' => 'Maria',
             'email' => 'maria@gmail.com',
             'password' => 'password123',
+            'phone_number' => '12345678',
+            'address' => 'cra 9 # 9-09',
+            'user_type' => 'customer',
+            'user_status' => 'active',
+            'birthday' => '2001-10-09',
         ]);
 
         User::create([
             'name' => 'Pedro',
             'email' => 'pedro@gmail.com',
             'password' => 'password123',
+            'phone_number' => '12345678',
+            'address' => 'cra 9 # 9-09',
+            'user_type' => 'customer',
+            'user_status' => 'active',
+            'birthday' => '2001-11-09',
         ]);
 
         User::create([
             'name' => 'Ana',
             'email' => 'ana@gmail.com',
             'password' => 'password123',
-        ]);
-
-        User::create([
-            'name' => 'Luis',
-            'email' => 'luis@gmail.com',
-            'password' => 'password123',
-        ]);
-
-        User::create([
-            'name' => 'Sofia',
-            'email' => 'sofia@gmail.com',
-            'password' => 'password123',
-        ]);
-
-        User::create([
-            'name' => 'Carlos',
-            'email' => 'carlos@gmail.com',
-            'password' => 'password123',
-        ]);
-
-        User::create([
-            'name' => 'Laura',
-            'email' => 'laura@gmail.com',
-            'password' => 'password123',
-        ]);
-
-        User::create([
-            'name' => 'Jorge',
-            'email' => 'jorge@gmail.com',
-            'password' => 'password123',
-        ]);
-
-        User::create([
-            'name' => 'Marta',
-            'email' => 'marta@gmail.com',
-            'password' => 'password123',
+            'phone_number' => '12345678',
+            'address' => 'cra 9 # 9-09',
+            'user_type' => 'customer',
+            'user_status' => 'active',
+            'birthday' => '2001-12-09',
         ]);
     }
 }
