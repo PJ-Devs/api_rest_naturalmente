@@ -6,7 +6,7 @@ use App\Models\ProductType;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Product;
-
+use App\Http\Resources\api\v1\ProductTypeResource;
 class ProductTypeController extends Controller
 {
     /**
@@ -14,7 +14,9 @@ class ProductTypeController extends Controller
      */
     public function index()
     {
-        return response()->json(["data" => ProductType::all()], 200);
+        return response()->json([
+            "data" => ProductTypeResource::collection(ProductType::all()),
+        ], 200);
     }
 
     /**
@@ -23,7 +25,9 @@ class ProductTypeController extends Controller
     public function store(Request $request)
     {
         $productType = ProductType::create($request->all());
-        return response()->json(["data" => $productType], 201);
+        return response()->json([
+            "data" => new ProductTypeResource($productType),
+        ], 201);
     }
 
     /**
@@ -33,7 +37,10 @@ class ProductTypeController extends Controller
     {
         $type_id = Product::find($id_product)->product_type;
         $type = ProductType::find($type_id);
-        return response()->json(["data" => $type], 200);
+
+        return response()->json([
+            "data" => new ProductTypeResource($type),
+        ], 200);
     }
 
     /**
@@ -42,7 +49,10 @@ class ProductTypeController extends Controller
     public function update(Request $request, ProductType $productType)
     {
         $productType->update($request->all());
-        return response()->json(["data" => $productType], 200);
+
+        return response()->json([
+            "data" => new ProductTypeResource($productType),
+        ], 200);
     }
 
     /**

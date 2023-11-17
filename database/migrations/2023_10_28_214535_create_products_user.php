@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('product_id');
             $table->unsignedBigInteger('user_id');
-            $table->integer('quantity')->default(1);
+            $table->integer('orderedQuantity')->default(1);
             $table->timestamps();
 
             $table->foreign('product_id')
@@ -33,7 +33,7 @@ return new class extends Migration
     }
 
     /**
-     * Reverse the migrations.
+     * Reverse the migrations.pp
      */
     public function down(): void
     {

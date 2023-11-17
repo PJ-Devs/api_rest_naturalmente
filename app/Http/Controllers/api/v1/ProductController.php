@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\api\v1;
+
 use App\Models\Product;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -36,7 +37,7 @@ class ProductController extends Controller
     {
         return response()->json([
             "data" => new ProductResource($product),
-        ],200);
+        ], 200);
     }
 
     /**
@@ -56,6 +57,6 @@ class ProductController extends Controller
     public function destroy(Product $product)
     {
         $product->delete();
-        return response()->json(null,204);
+        return response()->json(null, 204);
     }
 }

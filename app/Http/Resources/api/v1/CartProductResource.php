@@ -4,10 +4,8 @@ namespace App\Http\Resources\api\v1;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
-use App\Http\Resources\api\v1\CategoryResource;
-use App\Http\Resources\api\v1\ProductTypeResource;
 
-class ProductResource extends JsonResource
+class CartProductResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -25,6 +23,7 @@ class ProductResource extends JsonResource
             'product_type' => new ProductTypeResource($this->product_types),
             'category' => new CategoryResource($this->product_categories),
             'img' => $this->img,
+            'pivot' => $this->pivot,
         ];
     }
 }

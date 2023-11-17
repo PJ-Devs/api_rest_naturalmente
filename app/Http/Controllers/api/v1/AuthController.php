@@ -3,15 +3,20 @@
 namespace App\Http\Controllers\api\v1;
 
 use Laravel\Socialite\Facades\Socialite;
-use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use App\Models\User;
-use Illuminate\Http\Request;
+use App\Http\Resources\api\v1\UserResource;
+use App\Http\Requests\api\v1\UserStoreRequest;
 use Illuminate\Support\Facades\Cookie;
 
 class AuthController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth:api', ['except' => ['login', 'register']]);
+    }
+
     public function googleLogin() {
         return Socialite::driver('google')->redirect();
     }
@@ -38,16 +43,6 @@ class AuthController extends Controller
         }
     }
 
-   /**
-     * Create a new AuthController instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        $this->middleware('auth:api', ['except' => ['login']]);
-    }
-
     /**
      * Get a JWT via given credentials.
      *
@@ -58,10 +53,21 @@ class AuthController extends Controller
         $credentials = request(['email', 'password']);
 
         if (! $token = Auth::attempt($credentials)) {
-            return response()->json(['error' => 'Unauthorized'], 401);
+            return response()->json([
+                'error' => 'Unauthorized'
+            ], 401);
         }
 
-        return $this->respondWithToken($token);
+        try {
+            return $this->respondWithToken(Auth::refresh());
+        } catch (\Tymon\JWTAuth\Exceptions\TokenInvalidException $e) {
+            return response()->json(['error' => 'Token is invalid'], 401);
+        } catch (\Tymon\JWTAuth\Exceptions\TokenExpiredException $e) {
+            return response()->json(['error' => 'Token has expired'], 401);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Error refreshing token'], 500);
+        }
+        
     }
 
     /**
@@ -84,7 +90,9 @@ class AuthController extends Controller
         Auth::logout();
         Cookie::forget('jwt');
 
-        return response()->json(['message' => 'Successfully logged out']);
+        return response()->json([
+            'message' => 'Successfully logged out'
+        ], 201);
     }
 
     /**
@@ -106,14 +114,20 @@ class AuthController extends Controller
      */
     protected function respondWithToken($token)
     {
-        $token_cookie = cookie('jwt', $token, 60 * 24); // 1 day
 
         return response([
-            'access_token' => $token,
-            'user' => Auth::user(),
-            'token_type' => 'bearer',
-            'expires_in' => Auth::factory()->getTTL() * 60 * 24
-        ])->withCookie($token_cookie);
+            'message' => 'success',
+        ], 201)->withCookie(
+            'jwt', $token, 60, null, null, false, true
+        );
+    }
+
+    public function register(UserStoreRequest $request) {
+        $user = User::create($request->all());
+
+        return response()->json(
+            ['data' => new UserResource($user)
+        ], 201);
     }
 
 }
