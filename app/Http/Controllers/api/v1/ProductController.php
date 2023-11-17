@@ -25,7 +25,7 @@ class ProductController extends Controller
     {
         $product = Product::create($request->all());
         return response()->json([
-            "data" => ProductResource::collection($product),
+            "data" => new ProductResource($product),
         ], 201);
     }
 
@@ -35,7 +35,7 @@ class ProductController extends Controller
     public function show(Product $product)
     {
         return response()->json([
-            "data" => ProductResource::collection($product),
+            "data" => new ProductResource($product),
         ],200);
     }
 
@@ -46,7 +46,7 @@ class ProductController extends Controller
     {
         $product->update($request->all());
         return response()->json([
-            "data"=> ProductResource::collection($product),
+            "data"=> new ProductResource($product),
         ],200);
     }
 

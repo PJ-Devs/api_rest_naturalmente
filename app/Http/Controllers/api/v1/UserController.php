@@ -83,7 +83,7 @@ class UserController extends Controller
         $user = User::find($user_id);
         $targetProduct = Product::find($product_id);
         $user->products()->detach($targetProduct);
-        
+
         return response()->json([
             'data' => new UserResource($user->products)
         ], 200);
@@ -95,6 +95,13 @@ class UserController extends Controller
 
         return response()->json([
             'data' => new UserResource($user->products)
+        ], 200);
+    }
+
+    public function getCustomers(){
+        $users = User::where('user_type', 'customer')->get();
+        return response()->json([
+            'data' => UserResource::collection($users),
         ], 200);
     }
 
