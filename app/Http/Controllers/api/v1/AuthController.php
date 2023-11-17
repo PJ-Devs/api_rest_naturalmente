@@ -53,10 +53,21 @@ class AuthController extends Controller
         $credentials = request(['email', 'password']);
 
         if (! $token = Auth::attempt($credentials)) {
-            return response()->json(['error' => 'Unauthorized'], 401);
+            return response()->json([
+                'error' => 'Unauthorized'
+            ], 401);
         }
 
-        return $this->respondWithToken($token);
+        try {
+            return $this->respondWithToken(Auth::refresh());
+        } catch (\Tymon\JWTAuth\Exceptions\TokenInvalidException $e) {
+            return response()->json(['error' => 'Token is invalid'], 401);
+        } catch (\Tymon\JWTAuth\Exceptions\TokenExpiredException $e) {
+            return response()->json(['error' => 'Token has expired'], 401);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Error refreshing token'], 500);
+        }
+        
     }
 
     /**
@@ -79,7 +90,9 @@ class AuthController extends Controller
         Auth::logout();
         Cookie::forget('jwt');
 
-        return response()->json(['message' => 'Successfully logged out']);
+        return response()->json([
+            'message' => 'Successfully logged out'
+        ], 201);
     }
 
     /**
@@ -104,7 +117,7 @@ class AuthController extends Controller
 
         return response([
             'message' => 'success',
-        ])->withCookie(
+        ], 201)->withCookie(
             'jwt', $token, 60, null, null, false, true
         );
     }

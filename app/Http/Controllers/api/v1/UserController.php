@@ -6,8 +6,10 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Http\Requests\api\v1\UserUpdateRequest;
 use App\Http\Requests\api\v1\UserStoreRequest;
+use App\Http\Resources\api\v1\CartProductResource;
 use App\Http\Resources\api\v1\UserResource;
 use App\Models\Product;
+use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
@@ -30,8 +32,11 @@ class UserController extends Controller
         $user = User::create($request->all());
 
         return response()->json(
-            ['data' => new UserResource($user)
-        ], 201);
+            [
+                'data' => new UserResource($user)
+            ],
+            201
+        );
     }
 
     /**
@@ -67,25 +72,31 @@ class UserController extends Controller
         return response()->json(null, 204);
     }
 
-    public function attachProduct(string $user_id, string $product_id)
+    public function attachProduct(string $user_id, Request $request)
     {
         $user = User::find($user_id);
-        $targetProduct = Product::find($product_id);
-        $user->products()->attach($targetProduct);
+        $targetProduct = Product::find($request->product_id);
+
+        $user->products()->attach([
+            $targetProduct->id => [
+                'orderedQuantity' => $request->orderedQuantity
+            ]
+        ]);
 
         return response()->json([
-            'data' => new UserResource($user->products)
+            'data' => new $user->products,
         ], 200);
     }
 
     public function detachProduct(string $user_id, string $product_id)
     {
+
         $user = User::find($user_id);
         $targetProduct = Product::find($product_id);
         $user->products()->detach($targetProduct);
-        
+
         return response()->json([
-            'data' => new UserResource($user->products)
+            'data' => $user->products,
         ], 200);
     }
 
@@ -94,8 +105,7 @@ class UserController extends Controller
         $user = User::find($user_id);
 
         return response()->json([
-            'data' => new UserResource($user->products)
+            'data' => CartProductResource::collection($user->products),
         ], 200);
     }
-
 }

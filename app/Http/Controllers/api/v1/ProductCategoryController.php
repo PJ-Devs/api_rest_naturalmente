@@ -5,6 +5,7 @@ use App\Models\ProductCategory;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Product;
+use App\Http\Resources\api\v1\CategoryResource;
 
 class ProductCategoryController extends Controller
 {
@@ -13,7 +14,9 @@ class ProductCategoryController extends Controller
      */
     public function index()
     {
-        return response()->json(["data" => ProductCategory::all()], 200);
+        return response()->json([
+            "data" => CategoryResource::collection(ProductCategory::all()),
+        ], 200);
     }
 
     /**
@@ -22,7 +25,9 @@ class ProductCategoryController extends Controller
     public function store(Request $request)
     {
         $productCategory = ProductCategory::create($request->all());
-        return response()->json(["data" => $productCategory], 201);
+        return response()->json([
+            "data" => new CategoryResource($productCategory),
+        ], 201);
     }
 
     /**
@@ -32,7 +37,10 @@ class ProductCategoryController extends Controller
     {
         $id_category = Product::find($id_product)->category;
         $category = ProductCategory::find($id_category);
-        return response()->json(["data" => $category], 200);
+
+        return response()->json([
+            "data" => new CategoryResource($category),
+        ], 200);
     }
 
     /**
@@ -41,7 +49,9 @@ class ProductCategoryController extends Controller
     public function update(Request $request, ProductCategory $productCategory)
     {
         $productCategory->update($request->all());
-        return response()->json(["data" => $productCategory], 200);
+        return response()->json([
+            "data" => new CategoryResource($productCategory),
+        ], 200);
     }
 
     /**
