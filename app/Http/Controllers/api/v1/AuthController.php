@@ -29,7 +29,7 @@ class AuthController extends Controller
             ->first();
 
         if($user) {
-            // Here he sould recieve the login method
+            // Here he should recieve the login method
         } else {
             User::create([
                 'name' => $user->name,
@@ -67,7 +67,7 @@ class AuthController extends Controller
         } catch (\Exception $e) {
             return response()->json(['error' => 'Error refreshing token'], 500);
         }
-        
+
     }
 
     /**
