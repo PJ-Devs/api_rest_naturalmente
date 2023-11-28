@@ -13,6 +13,7 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
+        User::unguard();
         User::create([
             'name' => 'Juan',
             'email' => 'juan@gmail.com',
@@ -56,5 +57,6 @@ class UserSeeder extends Seeder
             'user_status' => 'active',
             'birthday' => '2001-12-09',
         ]);
+        User::reguard();
     }
 }

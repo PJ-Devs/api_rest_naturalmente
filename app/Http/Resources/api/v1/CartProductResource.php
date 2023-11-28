@@ -27,3 +27,4 @@ class CartProductResource extends JsonResource
         ];
     }
 }
+ 
