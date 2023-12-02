@@ -11,11 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('products_user', function (Blueprint $table) {
+        Schema::create('product_sell', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('product_id')->unique();
-            $table->unsignedBigInteger('user_id');
-            $table->integer('orderedQuantity')->default(1)->nullable();
+            $table->integer('orderedQuantity');
+            $table->unsignedBigInteger('product_id');
+            $table->unsignedBigInteger('sell_id');
             $table->timestamps();
 
             $table->foreign('product_id')
@@ -24,19 +24,19 @@ return new class extends Migration
                 ->cascadeOnDelete()
                 ->cascadeOnUpdate();
 
-            $table->foreign('user_id')
+            $table->foreign('sell_id')
                 ->references('id')
-                ->on('users')
+                ->on('sells')
                 ->cascadeOnDelete()
                 ->cascadeOnUpdate();
         });
     }
 
     /**
-     * Reverse the migrations.pp
+     * Reverse the migrations.
      */
     public function down(): void
     {
-        Schema::dropIfExists('products_user');
+        Schema::dropIfExists('product_sell');
     }
 };

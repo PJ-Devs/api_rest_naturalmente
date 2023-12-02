@@ -23,6 +23,12 @@ class Product extends Model
         return $this->belongsTo(ProductCategory::class, 'category');
     }
 
+    public function sells(): BelongsToMany
+    {
+        return $this->belongsToMany(User::class, 'product_sell', 'product_id', 'sell_id')
+            ->withPivot('id', 'orderedQuantity');
+    }
+
     // Many to Many relationship between Product and ShoppingCart
     public function users(): BelongsToMany
     {
@@ -30,7 +36,7 @@ class Product extends Model
             ->withPivot('id');
     }
 
-    protected $fillable=[
+    protected $fillable = [
         'name',
         'description',
         'price',
