@@ -39,25 +39,6 @@ Route::middleware('auth:api')->group(function () {
         [App\Http\Controllers\api\v1\CartController::class, 'getShoppingCart']
     );
 
-    /**
-     * Sell routes
-     */
-    Route::apiResource(
-        'v1/sells',
-        App\Http\Controllers\api\v1\SellController::class
-    );
-    Route::get(
-        'v1/sells/{id_sell}/products/{id_product}',
-        App\Http\Controllers\api\v1\SellController::class . '@showProduct'
-    );
-    Route::get(
-        'v1/products/{id_product}/sells',
-        App\Http\Controllers\api\v1\ProductController::class . '@showProductSells'
-    );
-    Route::get(
-        'v1/sells/{id_sell}/products',
-        App\Http\Controllers\api\v1\SellController::class . '@showSellProducts'
-    );
 
     /**
      * User routes
@@ -83,6 +64,38 @@ Route::middleware('auth:api')->group(function () {
         [App\Http\Controllers\api\v1\UserController::class, 'getCustomers']
     );
 });
+
+/**
+ * Sell routes
+ */
+Route::apiResource(
+    'v1/sells',
+    App\Http\Controllers\api\v1\SellController::class
+);
+Route::post(
+    'v1/sells',
+    App\Http\Controllers\api\v1\SellController::class . '@store'
+);
+Route::put(
+    'v1/sells/{id_sell}',
+    App\Http\Controllers\api\v1\SellController::class . '@update'
+);
+Route::get(
+    'v1/sells/{id_sell}/products/{id_product}',
+    App\Http\Controllers\api\v1\SellController::class . '@showProduct'
+);
+Route::get(
+    'v1/products/{id_product}/sells',
+    App\Http\Controllers\api\v1\ProductController::class . '@showProductSells'
+);
+Route::get(
+    'v1/sells/{id_sell}/products',
+    App\Http\Controllers\api\v1\SellController::class . '@showSellProducts'
+);
+Route::delete(
+    'v1/sells/{id_sell}',
+    App\Http\Controllers\api\v1\SellController::class . '@destroy'
+);
 
 /**
  * Theese routes are used for authentication by JWT

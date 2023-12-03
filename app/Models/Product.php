@@ -33,7 +33,7 @@ class Product extends Model
     public function users(): BelongsToMany
     {
         return $this->belongsToMany(User::class, 'products_user', 'product_id', 'user_id')
-            ->withPivot('id');
+            ->withPivot('id', 'orderedQuantity');
     }
 
     protected $fillable = [

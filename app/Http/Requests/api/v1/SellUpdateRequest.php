@@ -24,8 +24,19 @@ class SellUpdateRequest extends FormRequest
         return [
             //
             'user_id' => 'exists:users,id',
-            'total_price' => 'numeric',
+            'total_price' => 'numeric|min:1',
             'status' => 'string',
+        ];
+    }
+
+    public function messages(): array
+    {
+        return [
+            'user_id.exists' => 'El id del usuario no existe',
+
+            'total_price.numeric' => 'El precio total debe ser un numero',
+
+            'status.string' => 'El estado debe ser un string',
         ];
     }
 }

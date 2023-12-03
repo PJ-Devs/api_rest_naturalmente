@@ -22,7 +22,7 @@ class UpdateProductQuantityRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "orderedQuantity" => "required|integer|min:1|",
+            "orderedQuantity" => "required|integer|min:1",
         ];
     }
 

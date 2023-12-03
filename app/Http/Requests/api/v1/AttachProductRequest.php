@@ -25,4 +25,13 @@ class AttachProductRequest extends FormRequest
             "orderedQuantity" => "integer|min:1|default:1",
         ];
     }
+
+    public function messages(): array
+    {
+        return [
+            'orderedQuantity.integer' => 'La cantidad debe ser un numero',
+            'orderedQuantity.min' => 'La cantidad debe ser mayor a 0',
+            'orderedQuantity.default' => 'La cantidad por defecto es 1',
+        ];
+    }
 }
