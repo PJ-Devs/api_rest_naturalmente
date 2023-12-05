@@ -108,7 +108,12 @@ class AuthController extends Controller
      */
     public function me()
     {
-        return response()->json(Auth::user());
+        return response()->json(
+            [
+                'data' => new UserResource(Auth::user())
+            ],
+            201
+        );
     }
 
     /**
