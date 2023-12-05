@@ -92,6 +92,17 @@ Route::get(
     'v1/sells/{id_sell}/products',
     App\Http\Controllers\api\v1\SellController::class . '@showSellProducts'
 );
+
+Route::get(
+    'v1/users/{id_user}/sells',
+    App\Http\Controllers\api\v1\SellController::class . '@showUserSells'
+);
+
+Route::get(
+    'v1/users/{id_user}/sells/{id_sell}',
+    App\Http\Controllers\api\v1\SellController::class . '@showUserSell'
+);
+
 Route::delete(
     'v1/sells/{id_sell}',
     App\Http\Controllers\api\v1\SellController::class . '@destroy'
