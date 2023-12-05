@@ -6,9 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Http\Requests\api\v1\UserUpdateRequest;
 use App\Http\Requests\api\v1\UserStoreRequest;
-use App\Http\Resources\api\v1\CartProductResource;
 use App\Http\Resources\api\v1\UserResource;
-use App\Models\Product;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
@@ -72,44 +70,8 @@ class UserController extends Controller
         return response()->json(null, 204);
     }
 
-    public function attachProduct(string $user_id, Request $request)
+    public function getCustomers()
     {
-        $user = User::find($user_id);
-        $targetProduct = Product::find($request->product_id);
-
-        $user->products()->attach([
-            $targetProduct->id => [
-                'orderedQuantity' => $request->orderedQuantity
-            ]
-        ]);
-
-        return response()->json([
-            'data' => new $user->products,
-        ], 200);
-    }
-
-    public function detachProduct(string $user_id, string $product_id)
-    {
-
-        $user = User::find($user_id);
-        $targetProduct = Product::find($product_id);
-        $user->products()->detach($targetProduct);
-
-        return response()->json([
-            'data' => $user->products,
-        ], 200);
-    }
-
-    public function getShoppingCart(string $user_id)
-    {
-        $user = User::find($user_id);
-
-        return response()->json([
-            'data' => CartProductResource::collection($user->products),
-        ], 200);
-    }
-
-    public function getCustomers(){
         $users = User::where('user_type', 'customer')->get();
         return response()->json([
             'data' => UserResource::collection($users),

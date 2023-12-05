@@ -30,9 +30,9 @@ class UserStoreRequest extends FormRequest
         ];
     }
 
-    public function messages():array
+    public function messages(): array
     {
-        return[
+        return [
             'name.required' => 'El nombre es requerido',
             'name.max' => 'El nombre no puede tener mas de 255 caracteres',
             'name.min' => 'El nombre no puede tener menos de 7 caracteres',
