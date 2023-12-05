@@ -22,7 +22,7 @@ class AttachProductRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "orderedQuantity" => "integer|min:1|default:1",
+            "orderedQuantity" => "integer|min:1",
         ];
     }
 
