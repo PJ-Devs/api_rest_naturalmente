@@ -24,7 +24,18 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
+
+        if ($request->hasFile('img')) {
+            // Saves the product image onto the public storage folder, the storage function returns the path to the file
+            $filePath = $request->file('img')->storeAs('public/productImages', time() . '-' . $request->file('img')->getClientOriginalName());
+            // Adds the path to the file to the request object
+            $request->request->add(['img' => $filePath]);
+        }
+
+        dd($request->all());
+
         $product = Product::create($request->all());
+
         return response()->json([
             "data" => new ProductResource($product),
         ], 201);
@@ -45,10 +56,20 @@ class ProductController extends Controller
      */
     public function update(Request $request, Product $product)
     {
+
+        if ($request->hasFile('img')) {
+            // Saves the product image onto the public storage folder, the storage function returns the path to the file
+            $filePath = $request->file('img')->storeAs('public/productImages', time() . '-' . $request->file('img')->getClientOriginalName());
+            // Adds the path to the file to the request object
+            $request->request->add(['img' => $filePath]);
+        }
+
+        dd($request->all());
         $product->update($request->all());
+
         return response()->json([
-            "data"=> new ProductResource($product),
-        ],200);
+            "data" => new ProductResource($product),
+        ], 200);
     }
 
     /**
