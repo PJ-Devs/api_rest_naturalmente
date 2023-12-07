@@ -28,7 +28,7 @@ class SellController extends Controller
         $sell = Sell::create($request->all());
         $products = User::find($request->user_id)->products()->get();
         $user = User::find($request->user_id);
-
+      
         // Attach products to the sell if provided in the request
         foreach ($products as $product) {
             $sell->products()->attach(
