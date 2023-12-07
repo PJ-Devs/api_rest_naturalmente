@@ -26,9 +26,6 @@ class SellStoreRequest extends FormRequest
             'user_id' => 'required|exists:users,id',
             'total_price' => 'required|numeric',
             'status' => 'required|string',
-            'products' => 'array',
-            'products.*' => 'exists:products,id',
-
         ];
     }
 
@@ -43,9 +40,6 @@ class SellStoreRequest extends FormRequest
 
             'status.required' => 'El estado es requerido',
             'status.string' => 'El estado debe ser un string',
-
-            'products.array' => 'Los productos deben ser un array',
-            'products.*.exists' => 'El producto no existe',
         ];
     }
 }

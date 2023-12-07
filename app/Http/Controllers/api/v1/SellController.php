@@ -65,7 +65,7 @@ class SellController extends Controller
     {
         $user = User::findOrFail($id_user);
         $sells = $user->sells;
-        return response()->json(['data' => $sells], 200);
+        return response()->json(['data' => SellResource::collection($sells)], 200);
     }
 
     public function showUserSell($id_user, $id_sell)
