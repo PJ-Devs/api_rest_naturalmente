@@ -43,14 +43,6 @@ Route::middleware('auth:api')->group(function () {
     /**
      * User routes
      */
-    Route::get(
-        '/v1/users',
-        [App\Http\Controllers\api\v1\UserController::class, 'index']
-    );
-    Route::get(
-        '/v1/users/{id}',
-        [App\Http\Controllers\api\v1\UserController::class, 'show']
-    );
     Route::put(
         '/v1/users/{id}',
         [App\Http\Controllers\api\v1\UserController::class, 'update']
@@ -59,11 +51,21 @@ Route::middleware('auth:api')->group(function () {
         '/v1/users/{id}',
         [App\Http\Controllers\api\v1\UserController::class, 'destroy']
     );
-    Route::get(
-        '/v1/customers',
-        [App\Http\Controllers\api\v1\UserController::class, 'getCustomers']
-    );
 });
+
+Route::get(
+    '/v1/users',
+    [App\Http\Controllers\api\v1\UserController::class, 'index']
+);
+Route::get(
+    '/v1/users/{id}',
+    [App\Http\Controllers\api\v1\UserController::class, 'show']
+);
+
+Route::get(
+    '/v1/customers',
+    [App\Http\Controllers\api\v1\UserController::class, 'getCustomers']
+);
 
 Route::get('/v1/isAdmin', [App\Http\Controllers\api\v1\AuthController::class, 'isAdmin']);
 
