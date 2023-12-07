@@ -25,14 +25,14 @@ class SellController extends Controller
     {
         $sell = Sell::create($request->all());
         $products = User::find($request->user_id)->products()->get();
+        $user = User::find($request->user_id);
         // Attach products to the sell if provided in the request
-        if ($request->has('products')) {
-            foreach ($products as $product) {
-                $sell->products()->attach(
-                    $product->id,
-                    ['orderedQuantity' => $product->pivot->orderedQuantity]
-                );
-            }
+        foreach ($products as $product) {
+            $sell->products()->attach(
+                $product->id,
+                ['orderedQuantity' => $product->pivot->orderedQuantity]
+            );
+            $user->products()->detach($product->id);
         }
         return response()->json(['data' => $sell], 200);
     }
