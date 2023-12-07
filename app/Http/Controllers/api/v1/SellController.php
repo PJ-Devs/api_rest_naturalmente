@@ -18,7 +18,9 @@ class SellController extends Controller
     public function index()
     {
         $sells = Sell::with('products')->orderBy('created_at', 'desc')->get();
-        return response()->json(['data' => SellResource::collection($sells)], 200);
+        return response()->json([
+            'data' => SellResource::collection($sells)
+        ], 200);
     }
 
     public function store(SellStoreRequest $request)
@@ -26,6 +28,7 @@ class SellController extends Controller
         $sell = Sell::create($request->all());
         $products = User::find($request->user_id)->products()->get();
         $user = User::find($request->user_id);
+      
         // Attach products to the sell if provided in the request
         foreach ($products as $product) {
             $sell->products()->attach(
@@ -34,7 +37,8 @@ class SellController extends Controller
             );
             $user->products()->detach($product->id);
         }
-        return response()->json(['data' => $sell], 200);
+
+        return response()->json(['data' => new SellResource($sell)], 200);
     }
 
     /**
