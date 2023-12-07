@@ -141,6 +141,12 @@ class AuthController extends Controller
         return $this->respondWithToken(Auth::refresh());
     }
 
+    public function isAdmin(){
+        return response()->json([
+            'message' => Auth::user()->user_type === 'admin'
+        ]);
+    }
+
     /**
      * Get the token array structure.
      *
