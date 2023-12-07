@@ -65,6 +65,8 @@ Route::middleware('auth:api')->group(function () {
     );
 });
 
+Route::get('/v1/isAdmin', [App\Http\Controllers\api\v1\AuthController::class, 'isAdmin']);
+
 /**
  * Sell routes
  */
