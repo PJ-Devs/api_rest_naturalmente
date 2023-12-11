@@ -7,7 +7,6 @@ use App\Models\User;
 use App\Http\Requests\api\v1\UserUpdateRequest;
 use App\Http\Requests\api\v1\UserStoreRequest;
 use App\Http\Resources\api\v1\UserResource;
-use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
