@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Product;
 use App\Http\Resources\api\v1\ProductTypeResource;
+use App\Http\Resources\api\v1\ProductResource;
 class ProductTypeController extends Controller
 {
     /**
@@ -63,4 +64,22 @@ class ProductTypeController extends Controller
         $productType->delete();
         return response()->json(null, 204);
     }
+
+    public function getProductsByTypeName(string $type_name)
+    {
+        $type = ProductType::where('name', $type_name)->first();
+
+        if(!$type) {
+            return response()->json([
+                "message" => "No se encontro la categoria.",
+            ], 404);
+        }
+
+        $products = $type->products;
+
+        return response()->json([
+            'data' => ProductResource::collection($products),
+        ], 200);
+    }
+
 }

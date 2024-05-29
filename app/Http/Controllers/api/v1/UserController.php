@@ -7,7 +7,6 @@ use App\Models\User;
 use App\Http\Requests\api\v1\UserUpdateRequest;
 use App\Http\Requests\api\v1\UserStoreRequest;
 use App\Http\Resources\api\v1\UserResource;
-use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
@@ -54,6 +53,7 @@ class UserController extends Controller
     public function update(UserUpdateRequest $request, string $id)
     {
         // Used to update all data from the req information params
+
         $user = User::find($id);
         $user->update($request->all());
         return response()->json([

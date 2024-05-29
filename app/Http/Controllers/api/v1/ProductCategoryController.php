@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Product;
 use App\Http\Resources\api\v1\CategoryResource;
+use App\Http\Resources\api\v1\ProductResource;
 
 class ProductCategoryController extends Controller
 {
@@ -63,4 +64,24 @@ class ProductCategoryController extends Controller
         return response()->json(null, 204);
 
     }
+
+    public function getProductsByCategoryName(string $categoryName)
+    {
+        // Encuentra la categoría por su nombre
+        $category = ProductCategory::where('name', $categoryName)->first();
+
+        if (!$category) {
+            return response()->json([
+                'message' => 'No se encontró la categoría.',
+            ], 404);
+        }
+
+        // Encuentra los productos asociados con el ID de la categoría
+        $products = $category->products;
+
+        return response()->json([
+            'data' => ProductResource::collection($products),
+        ], 200);
+    }
+
 }
