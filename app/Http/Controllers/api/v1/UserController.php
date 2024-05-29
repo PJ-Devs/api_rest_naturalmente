@@ -53,6 +53,7 @@ class UserController extends Controller
     public function update(UserUpdateRequest $request, string $id)
     {
         // Used to update all data from the req information params
+
         $user = User::find($id);
         $user->update($request->all());
         return response()->json([

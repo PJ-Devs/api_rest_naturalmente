@@ -43,15 +43,15 @@ Route::middleware('auth:api')->group(function () {
     /**
      * User routes
      */
-    Route::put(
-        '/v1/users/{id}',
-        [App\Http\Controllers\api\v1\UserController::class, 'update']
-    );
     Route::delete(
         '/v1/users/{id}',
         [App\Http\Controllers\api\v1\UserController::class, 'destroy']
     );
 });
+Route::put(
+    '/v1/users/{id}',
+    [App\Http\Controllers\api\v1\UserController::class, 'update']
+);
 
 Route::get(
     '/v1/users',
@@ -138,6 +138,10 @@ Route::group([
     Route::post(
         '/check-token-validity',
         [App\Http\Controllers\api\v1\AuthController::class, 'checkTokenValidity']
+    );
+    Route::post(
+        '/profile',
+        [App\Http\Controllers\api\v1\AuthController::class, 'me']
     );
 });
 
