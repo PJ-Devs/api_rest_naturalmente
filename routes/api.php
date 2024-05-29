@@ -39,7 +39,6 @@ Route::middleware('auth:api')->group(function () {
         [App\Http\Controllers\api\v1\CartController::class, 'getShoppingCart']
     );
 
-
     /**
      * User routes
      */
@@ -48,6 +47,7 @@ Route::middleware('auth:api')->group(function () {
         [App\Http\Controllers\api\v1\UserController::class, 'destroy']
     );
 });
+
 Route::put(
     '/v1/users/{id}',
     [App\Http\Controllers\api\v1\UserController::class, 'update']
@@ -61,12 +61,10 @@ Route::get(
     '/v1/users/{id}',
     [App\Http\Controllers\api\v1\UserController::class, 'show']
 );
-
 Route::get(
     '/v1/customers',
     [App\Http\Controllers\api\v1\UserController::class, 'getCustomers']
 );
-
 Route::get('/v1/isAdmin', [App\Http\Controllers\api\v1\AuthController::class, 'isAdmin']);
 
 /**
@@ -145,10 +143,6 @@ Route::group([
     );
 });
 
-Route::post(
-    '/profile',
-    [App\Http\Controllers\api\v1\AuthController::class, 'me']
-);
 Route::get('/auth/google-login', [App\Http\Controllers\api\v1\AuthController::class, 'googleLogin']);
 Route::get('/auth/google-callback', []);
 
@@ -164,4 +158,3 @@ Route::get('/v1/categories/{category_name}/products', [App\Http\Controllers\api\
 Route::apiResource('/v1/types', App\Http\Controllers\api\v1\ProductTypeController::class);
 Route::get('/v1/products/{id_product}/type', App\Http\Controllers\api\v1\ProductTypeController::class . '@show');
 Route::get('/v1/types/{type_name}/products', [App\Http\Controllers\api\v1\ProductTypeController::class, 'getProductsByTypeName']);
-
