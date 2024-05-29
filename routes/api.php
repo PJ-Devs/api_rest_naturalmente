@@ -132,10 +132,6 @@ Route::group([
         [App\Http\Controllers\api\v1\AuthController::class, 'refresh']
     );
     Route::post(
-        '/profile',
-        [App\Http\Controllers\api\v1\AuthController::class, 'me']
-    );
-    Route::post(
         '/register',
         [App\Http\Controllers\api\v1\AuthController::class, 'register']
     );
@@ -145,6 +141,10 @@ Route::group([
     );
 });
 
+Route::post(
+    '/profile',
+    [App\Http\Controllers\api\v1\AuthController::class, 'me']
+);
 Route::get('/auth/google-login', [App\Http\Controllers\api\v1\AuthController::class, 'googleLogin']);
 Route::get('/auth/google-callback', []);
 
@@ -154,7 +154,10 @@ Route::apiResource('/v1/products', App\Http\Controllers\api\v1\ProductController
 //endpoints for categories
 Route::apiResource('/v1/categories', App\Http\Controllers\api\v1\ProductCategoryController::class);
 Route::get('/v1/products/{id_product}/category', App\Http\Controllers\api\v1\ProductCategoryController::class . '@show');
+Route::get('/v1/categories/{category_name}/products', [App\Http\Controllers\api\v1\ProductCategoryController::class, 'getProductsByCategoryName']);
 
 //endpoints for product types
 Route::apiResource('/v1/types', App\Http\Controllers\api\v1\ProductTypeController::class);
 Route::get('/v1/products/{id_product}/type', App\Http\Controllers\api\v1\ProductTypeController::class . '@show');
+Route::get('/v1/types/{type_name}/products', [App\Http\Controllers\api\v1\ProductTypeController::class, 'getProductsByTypeName']);
+

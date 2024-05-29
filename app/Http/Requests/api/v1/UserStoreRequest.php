@@ -25,8 +25,8 @@ class UserStoreRequest extends FormRequest
             'name'    =>'required|regex:/^[\pL\s]+$/u|max:255|min:7|string',
             'email'   =>'required|max:255|min:7|string|email|unique:users,email',
             'password'=>'required|min:8|max:255|string',
-            'phone_number'=>'required|min:4|max:30|string|unique:users,phone_number|alpha_num',
-            'address'=>'required|min:8|max:100|string|regex:/^.*$/u'
+            'phone_number'=>'min:4|max:30|string|unique:users,phone_number|alpha_num',
+            'address'=>'min:8|max:100|string|regex:/^.*$/u'
         ];
     }
 
